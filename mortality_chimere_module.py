@@ -181,11 +181,6 @@ def mortalite_age_commune_monte_carlo(
 
         AF_central = 1 - np.exp(-np.log(RR) * meandelta_commune / 10)
         mort_central = deaths * AF_central
-
-        esp_dict = {2019: 80, 2030: 84, 2050: 86}
-        esp = esp_dict.get(int(annee), 80)
-        rem_life = max(esp - age, 30)
-
         if pop > 0:
             m0 = deaths / pop
             mc = (deaths - mort_central) / pop
@@ -253,7 +248,8 @@ def mortalite_age_commune_monte_carlo(
     avg_LE_corrige = np.sum(le_corrige * grouped["pop_age"]) / total_pop
     avg_LE_corrige_LCI = np.sum(le_corrige_LCI * grouped["pop_age"]) / total_pop
     avg_LE_corrige_UCI = np.sum(le_corrige_UCI * grouped["pop_age"]) / total_pop
-
+            
+    rem_life = le_initial
     grouped["YLG"] = rem_life * grouped["mortpol_age"]
     grouped["YLG_LCI"] = rem_life * grouped["mortpol_LCI"]
     grouped["YLG_UCI"] = rem_life * grouped["mortpol_UCI"]
@@ -264,4 +260,5 @@ def mortalite_age_commune_monte_carlo(
     grouped["overall_LifeTable_LEgain_mo_UCI"] = (avg_LE_corrige_UCI - avg_LE_initial) * 12
 
     return grouped.sort_values("age").reset_index(drop=True)
+
 
