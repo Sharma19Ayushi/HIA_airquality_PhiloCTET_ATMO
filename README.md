@@ -11,8 +11,9 @@ Prepares demographic, geospatial, and mortality datasets by cleaning, aggregatin
 **CHIMERE Concentration Module**
 Loads and processes CHIMERE concentration outputs (e.g., netCDF) for a given pollutant, year, and scenario. It reshapes gridded concentration fields into geospatial point datasets (with coordinates and concentration metrics) that can be intersected with administrative geometries. file name: cordo_chimere_module.py. Processes baseline annual pollutant concentration data (like 2019 reference data). Standardizes pollutant names, validates inputs, and extracts georeferenced data from netCDF files. Provides GeoDataFrames for spatial harmonization and comparisons.
 **ASSOCIATION Module**
-generate_points(): Creates grid points within polygons and links concentration points to administrative units via an identifier (e.g., IRIS code).
-calculate_perc(): Computes polygon–grid overlap percentages to weight grid points by intersection area, improving spatial allocation accuracy.
+The Association Module (association_module.py) is responsible for accurately linking modelled pollutant concentration points to administrative regions (e.g., IRIS units) using geospatial relationships. It provides spatial joining and area-weighted allocation functions to ensure precise exposure assessments for downstream health impact analysis.
+generate_points(polygone, conc_points): Creates grid points within polygons and links concentration points to administrative units via an identifier (e.g., IRIS code).
+calculate_intersection_percentages(grille_points, iris_polygons, cell_size_m=1000.0, denominator='cell'): Computes polygon–grid overlap percentages to weight grid points by intersection area, improving spatial allocation accuracy.
 **CORRECTION Module**
 Adjusts CHIMERE concentration points using proximity-based correction against reference concentrations (e.g., baseline INERIS/CHIMERE reference). Uses nearest-neighbor logic and parallelization for efficiency, updating concentrations and deltas while ensuring robust error handling.
 **Pourcent_file_export.ipynb**
